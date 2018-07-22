@@ -6,13 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "budo index.js",
-    "signalhub": "signalhub listen -p 6777"
+    "signalhub": "signalhub listen -p 6777",
+    "build": "browserify index.js -o ./public/bundle.js",
+    "deploy": "surge ./public"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "budo": "^11.3.2"
+    "browserify": "^16.2.2",
+    "budo": "^11.3.2",
+    "surge": "^0.20.1"
   },
   "dependencies": {
     "signalhub": "^4.9.0"
