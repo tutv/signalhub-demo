@@ -13,3 +13,7 @@ yarn signalhub
 yarn start
 
 ```
+
+## Demo
+
+Open browser: `http://localhost:6777`

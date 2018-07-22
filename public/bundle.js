@@ -9342,7 +9342,7 @@ function extend() {
 const signalhub = require('signalhub');
 
 const hub = signalhub('my-game', [
-    'http://localhost:6777'
+    'https://signalhub-hzbibrznqa.now.sh'
 ])
 
 const players = {}

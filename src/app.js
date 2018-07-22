@@ -1,8 +1,7 @@
 const signalhub = require('signalhub');
 
 const hub = signalhub('my-game', [
-    'https://signalhub-jccqtwhdwc.now.sh',
-    'https://signalhub-hzbibrznqa.now.sh'
+    'http://localhost:6777'
 ])
 
 const players = {}
