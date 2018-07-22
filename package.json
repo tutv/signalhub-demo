@@ -19,6 +19,7 @@
     "surge": "^0.20.1"
   },
   "dependencies": {
-    "signalhub": "^4.9.0"
+    "signalhub": "^4.9.0",
+    "webrtc-swarm": "^2.9.0"
   }
 }

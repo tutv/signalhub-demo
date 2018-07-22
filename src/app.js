@@ -1,4 +1,5 @@
-const signalhub = require('signalhub');
+const signalhub = require('signalhub')
+const WebRTCSwarm = require('webrtc-swarm')
 
 const hub = signalhub('my-game', [
     'http://localhost:6777'
@@ -8,16 +9,36 @@ const players = {}
 const Player = require('./player.js')
 const you = new Player()
 
+const swarm = WebRTCSwarm(hub)
 
-hub.subscribe('update').on('data', (data) => {
-    if (you.color === data.color) return
+swarm.on('connect', (peer, id) => {
+    console.log('new peer', id);
 
-    if (!players[data.color]) {
-        players[data.color] = new Player(data);
+    if (!players[id]) {
+        players[id] = new Player()
+
+        peer.on('data', (str) => {
+            const data = JSON.parse(str);
+
+            players[id].update(data);
+        });
     }
-
-    players[data.color].update(data)
 });
+
+swarm.on('disconnect', (peer, id) => {
+    if (players[id]) {
+        players[id].remove()
+        delete players[id];
+    }
+});
+
+setInterval(() => {
+    const yourString = JSON.stringify(you);
+
+    swarm.peers.forEach(peer => {
+        peer.send(yourString);
+    })
+}, 100);
 
 document.addEventListener('keypress', function (e) {
     const speed = 16
@@ -25,22 +46,18 @@ document.addEventListener('keypress', function (e) {
         case 'a':
             you.x -= speed
             you.update()
-            hub.broadcast('update', you)
             break
         case 'd':
             you.x += speed
             you.update()
-            hub.broadcast('update', you)
             break
         case 'w':
             you.y -= speed
             you.update()
-            hub.broadcast('update', you)
             break
         case 's':
             you.y += speed
             you.update()
-            hub.broadcast('update', you)
             break
     }
 }, false)

@@ -17,6 +17,10 @@ function Player(data) {
     document.body.appendChild(this.element)
 }
 
+Player.prototype.remove = function () {
+    this.element.remove();
+};
+
 Player.prototype.addStream = function (stream) {
     this.element.srcObject = stream
     this.element.play()
